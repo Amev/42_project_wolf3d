@@ -52,6 +52,14 @@ typedef struct		s_win
 	int				bpp;
 	int				len;
 	int				endian;
+	float			player_x;
+	float			player_y;
+	float			cam_x;
+	float			cam_y;
+	float			dir_x;
+	float			dir_y;
+	float			time;
+	float			old_time;
 }					t_win;
 
 int			wolf_key_hook(int k, t_win *env);

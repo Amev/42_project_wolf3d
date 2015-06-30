@@ -19,7 +19,7 @@ int			main(int ac, char **av)
 	(void)ac;
 	(void)av;
 	env.mlx = mlx_init();
-	env.win = mlx_new_window(env.mlx, 700, 500, "Wolf3D");
+	env.win = mlx_new_window(env.mlx, 512, 384, "Wolf3D");
 	mlx_key_hook(env.win, wolf_key_hook, &env);
 	mlx_loop(env.mlx);
 	return (0);
