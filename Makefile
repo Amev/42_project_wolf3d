@@ -6,7 +6,7 @@
 #    By: vame <vame@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/06/12 15:09:58 by vame              #+#    #+#              #
-#    Updated: 2015/06/15 14:07:36 by vame             ###   ########.fr        #
+#    Updated: 2015/06/30 11:07:32 by vame             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,8 @@ CFLAGS = -Werror -Wextra -Wall -I libft/includes/
 LIBX = -lm -L libft/ -lft -L minilibx_macos/ -lmlx -framework OpenGL -framework AppKit
 
 SRC =	./wolf_main.c \
-		./wolf_key_hook.c
+		./wolf_key_hook.c \
+		./wolf_create_map.c
 
 BINAIRE = $(SRC:.c=.o)
 

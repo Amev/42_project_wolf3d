@@ -6,11 +6,32 @@
 /*   By: vame <vame@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/15 14:09:29 by vame              #+#    #+#             */
-/*   Updated: 2015/06/22 14:34:44 by vame             ###   ########.fr       */
+/*   Updated: 2015/06/30 12:07:29 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
+
+static char			**wolf_join_line(char **line, char ***read)
+{
+	size_t		i;
+	size_t		len;
+	char		**new;
+
+	i = 0;
+	len = 0;
+	while (*read && (*read)[len])
+		len++;
+	if (!(new = (char **)malloc(sizeof(char *) * (len + 2))))
+		wolf_print_error(ERR_MAL);
+	new[len + 1] = NULL;
+	while (i++ < len)
+		new[i - 1] = (*read)[i - 1];
+	new[len] = *line;
+	if (*read)
+		free(*read);
+	return (new);
+}
 
 static char			**wolf_read_map(char *map)
 {
@@ -32,27 +53,6 @@ static char			**wolf_read_map(char *map)
 	return (read);
 }
 
-static char			**wolf_join_line(char **line, char ***read)
-{
-	size_t		i;
-	size_t		len;
-	char		**new;
-
-	i = 0;
-	len = 0;
-	while (*read && (*read)[len])
-		len++;
-	if (!(new = (char **)malloc(sizeof(char *) * (len + 2))))
-		fdf_print_error(ERR_MAL);
-	new[len + 1] = NULL;
-	while (i++ < len)
-		new[i - 1] = (*read)[i - 1];
-	new[len] = *line;
-	if (*read)
-		free(*read);
-	return (new);
-}
-
 static void			wolf_malloc_y_map(t_map *map, char **read)
 {
 	int			y;
@@ -66,8 +66,6 @@ static void			wolf_malloc_y_map(t_map *map, char **read)
 		wolf_print_error(ERR_MAL);
 	map->x = 0;
 	map->y = y;
-	map->z_min = INT_MAX;
-	map->z_max = INT_MIN;
 }
 
 static void			wolf_malloc_x_map(t_map *map, char **split, int y)
@@ -86,14 +84,15 @@ static void			wolf_malloc_x_map(t_map *map, char **split, int y)
 		map->x = x;
 }
 
-void			wolf_create_map(t_map *map, char *map)
+void			wolf_create_map(t_map *map, char *map_name)
 {
 	int			y;
 	int			x;
 	char		**read;
 	char		**split;
 
-	read = wolf_read_map(map);
+	y = 0;
+	read = wolf_read_map(map_name);
 	wolf_malloc_y_map(map, read);
 	while (read && read[y++] && !(x = 0))
 	{
@@ -101,7 +100,7 @@ void			wolf_create_map(t_map *map, char *map)
 			wolf_print_error(ERR_MAL);
 		wolf_malloc_x_map(map, split, y);
 		while (split && split[x++])
-			map->points[y - 1][x] = wolf_create_alti(split[x - 1], map);
+			map->points[y - 1][x] = ft_atoi(split[x - 1]);
 		ft_strdel_double(&split);
 	}
 	ft_strdel_double(&read);
