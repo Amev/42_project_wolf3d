@@ -103,6 +103,9 @@ typedef struct		s_super_struct
 	int				step_y;
 	int				hit;
 	int				side;
+	int				line_height;
+	int				draw_start;
+	int				draw_end;
 }					t_super_struct;
 
 int					wolf_key_hook(int k, t_win *env);

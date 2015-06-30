@@ -36,14 +36,32 @@ static void			wolf_init_struct(t_win *e, t_super_struct *s)
 		s->d_side_y = (s->map_y + 1.0 - s=>pos_y) * s->delta_y;
 }
 
-static void			wolf
-		while (s->hit == 0)
+static void			wolf_dda_algo(t_super_struct *s)
+{
+	while (s->hit == 0)
+	{
+		if (s->d_side_x < s->d_side_y)
 		{
-			if (s->d_side_x < s->d_side_y)
-			{
-				
-			}
+			s->d_side_x += s->deltq_x;
+			s->map_x += s->step_x;
+			s->side = s->step_x < 0 ? 0 : 1;
 		}
+		else
+		{
+			s->d_side_y += s->deltq_y;
+			s->map_y += s->step_y;
+			s->side = s->step_y < 0 ? 2 : 3;
+		}
+		if (s->e->points[s->map_y][s->map_x] != 0)
+			s->hit = 1;
+	}
+	if (s->side < 2)
+		s->wall_dist = (s->map_x - s->pos_x + (1 - s->step_x) / 2) / s->rdir_x;
+	else
+		s->wall_dist = (s->map_y - s->pos_y + (1 - s->step_y) / 2) / s->rdir_y;
+	s->wall_dist = s->wall_dist < 0 ? -(s->wall_dist) : s->wall_dist;
+}
+
 static int			wolf_draw_part(void *param)
 {
 	t_super_struct	*s;
@@ -54,6 +72,10 @@ static int			wolf_draw_part(void *param)
 	while (s->x < s->x_max)
 	{
 		wolf_init_struct(e, s);
+		wolf_dda_algo(s);
+		s->line_height = ft_abs((int)(s->e->h / s->wall_dist));
+		s->draw_start = ft_max(0, (-(s->line_height) / + h / 2));
+		s->draw_end = ft_min((s->e->h - 1), (s->line_height / + h / 2));
 	}
 }
 
