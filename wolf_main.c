@@ -6,7 +6,7 @@
 /*   By: vame <vame@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/15 11:54:32 by vame              #+#    #+#             */
-/*   Updated: 2015/06/30 13:39:59 by vame             ###   ########.fr       */
+/*   Updated: 2015/07/01 15:53:50 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,30 +33,14 @@ void			wolf_print_error(int err)
 
 static void		wolf_init_params(t_win *env)
 {
-	env->w = 512;
-	env->h = 384;
+	env->w = 2048;
+	env->h = 1200;
 	env->player_x = 22;
 	env->player_y = 12;
 	env->dir_x = -1;
 	env->dir_y = 0;
 	env->plane_x = 0;
 	env->plane_y = 0.66;
-}
-
-void			wolf_print_map(t_map *map)
-{
-	int			x;
-	int			y;
-
-	y = 0;
-	while (y < map->y)
-	{
-		x = 0;
-		while (x < map->x)
-			ft_printf("%d ", map->points[y][x++]);
-		y++;
-		ft_printf("\n");
-	}
 }
 
 int				main(void)
@@ -66,13 +50,12 @@ int				main(void)
 
 	wolf_create_map(&map, MAP_NAME);
 	env.map = &map;
-	wolf_print_map(env.map);
 	wolf_init_params(&env);
 	env.mlx = mlx_init();
 	env.win = mlx_new_window(env.mlx, env.w, env.h, "Wolf3D");
 	mlx_expose_hook(env.win, wolf_expose_hook, &env);
 	mlx_key_hook(env.win, wolf_key_hook, &env);
-	mlx_loop_hook(env.mlx, ftol_loop_hook, &env);
+	mlx_loop_hook(env.mlx, wolf_loop_hook, &env);
 	mlx_loop(env.mlx);
 	return (0);
 }

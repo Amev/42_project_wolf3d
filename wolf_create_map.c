@@ -6,7 +6,7 @@
 /*   By: vame <vame@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/15 14:09:29 by vame              #+#    #+#             */
-/*   Updated: 2015/06/30 12:07:29 by vame             ###   ########.fr       */
+/*   Updated: 2015/07/01 11:11:41 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,8 @@ static void			wolf_malloc_x_map(t_map *map, char **split, int y)
 		x++;
 	if (!x)
 		wolf_print_error(ERR_MAP);
-	if (!(map->points[y - 1] = (int *)malloc(sizeof(int) * (x + 1))))
+	if (!(map->points[y - 1] = (int *)malloc(sizeof(int) * (x))))
 		wolf_print_error(ERR_MAL);
-	map->points[y - 1][0] = x + 1;
 	if (x > map->x)
 		map->x = x;
 }
@@ -100,7 +99,7 @@ void			wolf_create_map(t_map *map, char *map_name)
 			wolf_print_error(ERR_MAL);
 		wolf_malloc_x_map(map, split, y);
 		while (split && split[x++])
-			map->points[y - 1][x] = ft_atoi(split[x - 1]);
+			map->points[y - 1][x - 1] = ft_atoi(split[x - 1]);
 		ft_strdel_double(&split);
 	}
 	ft_strdel_double(&read);

@@ -6,7 +6,7 @@
 /*   By: vame <vame@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/15 11:51:53 by vame              #+#    #+#             */
-/*   Updated: 2015/06/30 16:57:33 by vame             ###   ########.fr       */
+/*   Updated: 2015/07/01 15:14:19 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # define ERR_RED 5
 # define ERR_CLS 6
 # define ERR_GNL 7
+# define ERR_THD 8
 
 # define MAP_NAME "map"
 
@@ -74,12 +75,8 @@ typedef struct		s_win
 	float			player_y;
 	float			plane_x;
 	float			plane_y;
-	float			cam_x;
-	float			cam_y;
 	float			dir_x;
 	float			dir_y;
-	float			time;
-	float			old_time;
 }					t_win;
 
 typedef struct		s_super_struct
@@ -113,5 +110,6 @@ void				wolf_create_map(t_map *map, char *map_name);
 void				wolf_print_error(int err);
 int					wolf_expose_hook(t_win *e);
 int					wolf_loop_hook(t_win *e);
+int					wolf_draw(t_win *e);
 
 #endif
