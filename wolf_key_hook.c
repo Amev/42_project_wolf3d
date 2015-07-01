@@ -12,41 +12,58 @@
 
 #include "wolf.h"
 
-int			wolf_key_hook(int k, t_win *env)
+static void		wolf_key_rot(float a, t_win *env)
+{
+	float		tmp;
+
+	tmp = env->dir_x;
+	env->dir_x = env->dir_x * cos(a) - env->dir_y * sin(a);
+	env->dir_y = tmp * sin(a) + env->dir_y * cos(a);
+	tmp = env->plane_x;
+	env->plane_x = env->plane_x * cos(a) - env->plane_y * sin(a);
+	env->plane_y = tmp * sin(a) + env->plane_y * cos(a);
+	wolf_expose_hook(env);
+}
+
+static void		wolf_key_move(float a, t_win *env)
+{
+	if (env->map->points[(int)env->player_y][(int)(env->player_x +
+				env->dir_x * a)] == 0)
+		env->player_x += env->dir_x * a;
+	if (env->map->points[(int)(env->player_y + env->dir_y * a)]
+			[(int)env->player_x] == 0)
+		env->player_y += env->dir_y * a;
+	wolf_expose_hook(env);
+}
+
+static void		wolf_key_strafe(float a, t_win *env)
+{
+	if (env->map->points[(int)env->player_y][(int)(env->player_x +
+				env->plane_x * a)] == 0)
+		env->player_x += env->plane_x * a;
+	if (env->map->points[(int)(env->player_y + env->plane_y * a)]
+			[(int)env->player_x] == 0)
+		env->player_y += env->plane_y * a;
+	wolf_expose_hook(env);
+}
+
+int				wolf_key_hook(int k, t_win *env)
 {
 	float	tmp;
 
 	if (k == KEY_ESC)
 		exit(0);
 	if (k == KEY_A)
-	{
-		tmp = env->dir_x;
-		env->dir_x = env->dir_x * cos(0.314) - env->dir_y * sin(0.314);
-		env->dir_y = tmp * sin(0.314) + env->dir_y * cos(0.314);
-		tmp = env->plane_x;
-		env->plane_x = env->plane_x * cos(0.314) - env->plane_y * sin(0.314);
-		env->plane_y = tmp * sin(0.314) + env->plane_y * cos(0.314);
-		wolf_expose_hook(env);
-	}
+		wolf_key_rot(0.2, env);
 	if (k == KEY_D)
-	{
-		tmp = env->dir_x;
-		env->dir_x = env->dir_x * cos(-0.314) - env->dir_y * sin(-0.314);
-		env->dir_y = tmp * sin(-0.314) + env->dir_y * cos(-0.314);
-		tmp = env->plane_x;
-		env->plane_x = env->plane_x * cos(-0.314) - env->plane_y * sin(-0.314);
-		env->plane_y = tmp * sin(-0.314) + env->plane_y * cos(-0.314);
-		wolf_expose_hook(env);
-	}
+		wolf_key_rot(-0.2, env);
 	if (k == KEY_W)
-	{
-		if (env->map->points[(int)env->player_y][(int)(env->player_x +
-					env->dir_x * 0.5)] == 0)
-			env->player_x += env->dir_x + 0.5;
-		if (env->map->points[(int)(env->player_y + env->dir_y * 0.5)]
-				[(int)env->player_x] == 0)
-			env->player_y += env->dir_y + 0.5;
-		wolf_expose_hook(env);
-	}
+		wolf_key_move(0.5, env);
+	if (k == KEY_S)
+		wolf_key_move(-0.5, env);
+	if (k == KEY_Q)
+		wolf_key_strafe(-0.5, env);
+	if (k == KEY_E)
+		wolf_key_strafe(0.5, env);
 	return (0);
 }

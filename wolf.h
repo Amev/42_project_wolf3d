@@ -50,6 +50,8 @@
 # define KEY_W 13
 # define KEY_D 2
 # define KEY_S 1
+# define KEY_Q 12
+# define KEY_E 14
 # define KEY_SPACE 49
 
 typedef struct		s_map
