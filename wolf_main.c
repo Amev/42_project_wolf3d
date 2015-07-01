@@ -33,8 +33,8 @@ void			wolf_print_error(int err)
 
 static void		wolf_init_params(t_win *env)
 {
-	env->w = 2048;
-	env->h = 1200;
+	env->w = 1024;
+	env->h = 600;
 	env->player_x = 22;
 	env->player_y = 12;
 	env->dir_x = -1;

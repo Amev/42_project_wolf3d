@@ -49,8 +49,6 @@ static void		wolf_key_strafe(float a, t_win *env)
 
 int				wolf_key_hook(int k, t_win *env)
 {
-	float	tmp;
-
 	if (k == KEY_ESC)
 		exit(0);
 	if (k == KEY_A)
