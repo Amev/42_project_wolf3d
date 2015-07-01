@@ -62,6 +62,24 @@ static void			wolf_dda_algo(t_super_struct *s)
 	s->wall_dist = s->wall_dist < 0 ? -(s->wall_dist) : s->wall_dist;
 }
 
+static void			wolf_draw_line(t_super_struct *s, int x, t_win *e)
+{
+	int				i;
+	int				y;
+	int				color;
+
+	y = s->draw_start;
+	color = 0xFF0000;
+	while (y < s->draw_end)
+	{
+		i = x * 4 + y * e->len;
+		e->img_str[i] = (color & 0xFF);
+		e->img_str[i + 1] = (color & 0xFF00) >> 8;
+		e->img_str[i + 2] = (color & 0xFF0000) >> 16;
+		y++;
+	}
+}
+
 static int			wolf_draw_part(void *param)
 {
 	t_super_struct	*s;
@@ -74,9 +92,12 @@ static int			wolf_draw_part(void *param)
 		wolf_init_struct(e, s);
 		wolf_dda_algo(s);
 		s->line_height = ft_abs((int)(s->e->h / s->wall_dist));
-		s->draw_start = ft_max(0, (-(s->line_height) / + h / 2));
-		s->draw_end = ft_min((s->e->h - 1), (s->line_height / + h / 2));
+		s->draw_start = ft_max(0, (-(s->line_height) / 2 + h / 2));
+		s->draw_end = ft_min((s->e->h - 1), (s->line_height / 2 + h / 2));
+		wolf_draw_line(s, s->x, s->e);
+		s->x++;
 	}
+	return (1);
 }
 
 int					wolf_draw(t_win *e)
