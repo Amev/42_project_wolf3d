@@ -6,7 +6,7 @@
 /*   By: vame <vame@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/30 12:53:03 by vame              #+#    #+#             */
-/*   Updated: 2015/06/30 13:08:22 by vame             ###   ########.fr       */
+/*   Updated: 2015/07/01 15:41:06 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 int					wolf_loop_hook(t_win *e)
 {
-	if (e->event)
-		ftol_expose_hook(e);
+	wolf_expose_hook(e);
 	return (0);
 }
 
