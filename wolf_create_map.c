@@ -6,7 +6,7 @@
 /*   By: vame <vame@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/15 14:09:29 by vame              #+#    #+#             */
-/*   Updated: 2015/07/01 11:11:41 by vame             ###   ########.fr       */
+/*   Updated: 2015/07/02 15:28:24 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static char			**wolf_join_line(char **line, char ***read)
 {
-	size_t		i;
-	size_t		len;
-	char		**new;
+	size_t			i;
+	size_t			len;
+	char			**new;
 
 	i = 0;
 	len = 0;
@@ -35,10 +35,10 @@ static char			**wolf_join_line(char **line, char ***read)
 
 static char			**wolf_read_map(char *map)
 {
-	int			fd;
-	int			res;
-	char		*line;
-	char		**read;
+	int				fd;
+	int				res;
+	char			*line;
+	char			**read;
 
 	line = NULL;
 	read = NULL;
@@ -55,7 +55,7 @@ static char			**wolf_read_map(char *map)
 
 static void			wolf_malloc_y_map(t_map *map, char **read)
 {
-	int			y;
+	int				y;
 
 	y = 0;
 	while (read && read[y])
@@ -64,13 +64,15 @@ static void			wolf_malloc_y_map(t_map *map, char **read)
 		wolf_print_error(ERR_MAP);
 	if (!(map->points = (int **)malloc(sizeof(int *) * (y))))
 		wolf_print_error(ERR_MAL);
+	if (!(map->mini = (int **)malloc(sizeof(int *) * (y))))
+		wolf_print_error(ERR_MAL);
 	map->x = 0;
 	map->y = y;
 }
 
 static void			wolf_malloc_x_map(t_map *map, char **split, int y)
 {
-	int			x;
+	int				x;
 
 	x = 0;
 	while (split && split[x])
@@ -79,16 +81,18 @@ static void			wolf_malloc_x_map(t_map *map, char **split, int y)
 		wolf_print_error(ERR_MAP);
 	if (!(map->points[y - 1] = (int *)malloc(sizeof(int) * (x))))
 		wolf_print_error(ERR_MAL);
+	if (!(map->mini[y - 1] = (int *)malloc(sizeof(int) * (x))))
+		wolf_print_error(ERR_MAL);
 	if (x > map->x)
 		map->x = x;
 }
 
-void			wolf_create_map(t_map *map, char *map_name)
+void				wolf_create_map(t_map *map, char *map_name)
 {
-	int			y;
-	int			x;
-	char		**read;
-	char		**split;
+	int				y;
+	int				x;
+	char			**read;
+	char			**split;
 
 	y = 0;
 	read = wolf_read_map(map_name);
@@ -99,7 +103,10 @@ void			wolf_create_map(t_map *map, char *map_name)
 			wolf_print_error(ERR_MAL);
 		wolf_malloc_x_map(map, split, y);
 		while (split && split[x++])
+		{
 			map->points[y - 1][x - 1] = ft_atoi(split[x - 1]);
+			map->mini[y - 1][x - 1] = 0;
+		}
 		ft_strdel_double(&split);
 	}
 	ft_strdel_double(&read);

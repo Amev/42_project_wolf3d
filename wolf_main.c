@@ -6,7 +6,7 @@
 /*   By: vame <vame@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/15 11:54:32 by vame              #+#    #+#             */
-/*   Updated: 2015/07/01 15:53:50 by vame             ###   ########.fr       */
+/*   Updated: 2015/07/02 13:08:16 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void			wolf_print_error(int err)
 
 static void		wolf_init_params(t_win *env)
 {
-	env->w = 1024;
-	env->h = 600;
+	env->w = 2048;
+	env->h = 1200;
 	env->player_x = 22;
 	env->player_y = 12;
 	env->dir_x = -1;
@@ -54,8 +54,7 @@ int				main(void)
 	env.mlx = mlx_init();
 	env.win = mlx_new_window(env.mlx, env.w, env.h, "Wolf3D");
 	mlx_expose_hook(env.win, wolf_expose_hook, &env);
-	mlx_key_hook(env.win, wolf_key_hook, &env);
-	mlx_loop_hook(env.mlx, wolf_loop_hook, &env);
+	mlx_hook(env.win, 2, 3, wolf_key_hook, &env);
 	mlx_loop(env.mlx);
 	return (0);
 }

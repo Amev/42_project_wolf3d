@@ -6,7 +6,7 @@
 /*   By: vame <vame@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/30 13:08:37 by vame              #+#    #+#             */
-/*   Updated: 2015/07/01 15:53:51 by vame             ###   ########.fr       */
+/*   Updated: 2015/07/02 15:50:01 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ static void			wolf_dda_algo(t_super_struct *s)
 			s->side = s->step_y < 0 ? 2 : 3;
 		}
 		if (s->e->map->points[s->map_y][s->map_x] != 0)
+		{
 			s->hit = 1;
+			s->e->map->mini[s->map_y][s->map_x] = 1;
+		}
 	}
 	if (s->side < 2)
 		s->wall_dist = (s->map_x - s->pos_x + (1 - s->step_x) / 2) / s->rdir_x;
@@ -71,7 +74,7 @@ static void			wolf_draw_line(t_super_struct *s, int x, t_win *e)
 	y = s->draw_start;
 	color = s->side == 0 ? 0xFFFF00 : 0x000000;
 	color = s->side == 1 ? 0xFF0000 : color;
-	color = s->side == 2 ? 0x00BBFF : color;
+	color = s->side == 2 ? 0x0066FF : color;
 	color = s->side == 3 ? 0x37FF00 : color;
 	while (y < s->draw_end)
 	{
@@ -98,6 +101,7 @@ static void			*wolf_draw_part(void *param)
 		s->draw_start = ft_max(0, (-(s->line_height) / 2 + e->h / 2));
 		s->draw_end = ft_min((s->e->h - 1), (s->line_height / 2 + e->h / 2));
 		wolf_draw_line(s, s->x, e);
+		wolf_draw_floor(s, s->x, e);
 		s->x++;
 	}
 	pthread_exit(NULL);

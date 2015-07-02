@@ -6,7 +6,7 @@
 /*   By: vame <vame@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/15 11:51:53 by vame              #+#    #+#             */
-/*   Updated: 2015/07/01 15:14:19 by vame             ###   ########.fr       */
+/*   Updated: 2015/07/02 15:49:59 by vame             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@
 typedef struct		s_map
 {
 	int				**points;
+	int				**mini;
 	int				y;
 	int				x;
 }					t_map;
@@ -113,5 +114,6 @@ void				wolf_print_error(int err);
 int					wolf_expose_hook(t_win *e);
 int					wolf_loop_hook(t_win *e);
 int					wolf_draw(t_win *e);
+void				wolf_draw_floor(t_super_struct *s, int x, t_win *e);
 
 #endif
